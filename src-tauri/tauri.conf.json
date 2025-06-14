@@ -30,6 +30,19 @@
       "icons/128x128@2x.png",
       "icons/icon.icns",
       "icons/icon.ico"
-    ]
+    ],
+    "externalBin": ["binaries/fastapi-server"]
+  },
+  "plugins": {
+    "shell": {
+      "sidecar": true,
+      "scope": [
+        {
+          "name": "fastapi-server",
+          "cmd": "fastapi-server",
+          "args": ["8000"]
+        }
+      ]
+    }
   }
 }
