@@ -1,26 +1,42 @@
 <!doctype html>
-  <html lang="en" suppressHydrationWarning>
-    <head>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
-            try {
-              if (localStorage.theme === 'dark' || ((!('theme' in localStorage) || localStorage.theme === 'system') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                document.querySelector('meta[name="theme-color"]').setAttribute('content',"#09090b")
-              }
-              if (localStorage.layout) {
-                document.documentElement.classList.add('layout-' + localStorage.layout)
-              }
-            } catch (_) {}
-          `,
-        }}
-      />
-      <meta name="theme-color" content= "#ffffff" />
+<html lang="en">
+  <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + React + TS</title>
     <!-- 确保 meta[name="theme-color"] 在脚本执行前存在 -->
+    <meta name="theme-color" content="#ffffff" />
+    <script>
+      // 检查 localStorage 是否可用
+      function isLocalStorageAvailable() {
+        try {
+          const testKey = '__test__';
+          localStorage.setItem(testKey, testKey);
+          localStorage.removeItem(testKey);
+          return true;
+        } catch (e) {
+          return false;
+        }
+      }
+
+      try {
+        const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+        if (themeColorMeta) {
+          if (isLocalStorageAvailable()) {
+            if (localStorage.theme === 'dark' || ((!('theme' in localStorage) || localStorage.theme === 'system') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+              themeColorMeta.setAttribute('content', "#09090b");
+            }
+          }
+        }
+        if (isLocalStorageAvailable() && localStorage.layout) {
+          document.documentElement.classList.add('layout-' + localStorage.layout);
+        }
+      } catch (error) {
+        // 打印错误信息，方便调试
+        console.error('An error occurred:', error);
+      }
+    </script>
   </head>
   <body
     class="text-foreground group/body overscroll-none font-sans antialiased [--footer-height:calc(var(--spacing)*14)] [--header-height:calc(var(--spacing)*14)] xl:[--footer-height:calc(var(--spacing)*24)]"
