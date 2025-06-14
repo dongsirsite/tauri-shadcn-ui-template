@@ -1,9 +1,7 @@
 import App from "@/page/App";
+import Home from "@/page/Home";
 import Layout from "@/Layout";
 import { createBrowserRouter } from "react-router";
-function Home() {
-  return <div>Hello World</div>;
-}
 export const router = createBrowserRouter([
   {
     path: "/",
