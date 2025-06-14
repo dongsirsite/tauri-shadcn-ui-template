@@ -1,6 +1,21 @@
 <!doctype html>
-<html lang="en" suppressHydrationWarning>
-  <head>
+  <html lang="en" suppressHydrationWarning>
+    <head>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+            try {
+              if (localStorage.theme === 'dark' || ((!('theme' in localStorage) || localStorage.theme === 'system') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.querySelector('meta[name="theme-color"]').setAttribute('content',"#09090b")
+              }
+              if (localStorage.layout) {
+                document.documentElement.classList.add('layout-' + localStorage.layout)
+              }
+            } catch (_) {}
+          `,
+        }}
+      />
+      <meta name="theme-color" content= "#ffffff" />
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
