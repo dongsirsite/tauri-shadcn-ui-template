@@ -6,20 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + React + TS</title>
     <!-- 确保 meta[name="theme-color"] 在脚本执行前存在 -->
-    <meta name="theme-color" content="#ffffff" />
-    <script>
-      try {
-        const themeColorMeta = document.querySelector('meta[name="theme-color"]');
-        if (themeColorMeta) {
-          if (localStorage.theme === 'dark' || ((!('theme' in localStorage) || localStorage.theme === 'system') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            themeColorMeta.setAttribute('content', "#09090b");
-          }
-        }
-        if (localStorage.layout) {
-          document.documentElement.classList.add('layout-' + localStorage.layout);
-        }
-      } catch (_) {}
-    </script>
   </head>
   <body
     class="text-foreground group/body overscroll-none font-sans antialiased [--footer-height:calc(var(--spacing)*14)] [--header-height:calc(var(--spacing)*14)] xl:[--footer-height:calc(var(--spacing)*24)]"
