@@ -1,17 +1,37 @@
-import { Link, Outlet } from "react-router";
-import { Separator } from "./components/ui/separator";
+import { LayoutProvider } from "@/hooks/use-layout";
+import { ActiveThemeProvider } from "@/components/active-theme";
+import { TailwindIndicator } from "@/components/tailwind-indicator";
+import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
+import { Outlet } from "react-router";
+import { AppSidebar } from "./components/app-sidebar";
+import { SiteHeader } from "./components/site-header";
+import { SidebarInset, SidebarProvider } from "./components/ui/sidebar";
 
-export default function Layout() {
+export default function RootLayout() {
   return (
-    <div className="h-screen w-screen flex flex-col">
-      <div className="flex flex-row">
-        <Link to="/">Home</Link>
-        <Separator orientation="vertical" />
-        <Link to="/app">App</Link>
-      </div>
-      <div className="flex-1">
-        <Outlet />
-      </div>
-    </div>
+    <ThemeProvider>
+      <LayoutProvider>
+        <ActiveThemeProvider>
+          <SidebarProvider
+            className="hidden md:flex"
+            style={
+              {
+                "--sidebar-width": "calc(var(--spacing) * 64)",
+                "--header-height": "calc(var(--spacing) * 12 + 1px)",
+              } as React.CSSProperties
+            }
+          >
+            <AppSidebar variant="sidebar" />
+            <SidebarInset>
+              <SiteHeader />
+              <Outlet />
+            </SidebarInset>
+          </SidebarProvider>
+          <TailwindIndicator />
+          <Toaster position="top-center" />
+        </ActiveThemeProvider>
+      </LayoutProvider>
+    </ThemeProvider>
   );
 }
