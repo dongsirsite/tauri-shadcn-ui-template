@@ -11,7 +11,7 @@ interface RouteConfig {
   children?: RouteConfig[];
 }
 
-const routesConfig: RouteConfig[] = [
+export const routesConfig: RouteConfig[] = [
   {
     path: "/",
     component: "Layout",
