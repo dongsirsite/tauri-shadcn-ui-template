@@ -13,16 +13,19 @@ pub fn run() {
         .setup(|app| {
             // 启动 Python FastAPI 服务
             let shell = app.shell();
-            
+
             tauri::async_runtime::spawn(async move {
-                let _output = shell
-                    .sidecar("fastapi-server")
-                    .expect("failed to create sidecar command")
-                    .args(["8000"])
-                    .spawn()
-                    .expect("failed to spawn sidecar");
+                // 开发模式直接运行 Python 脚本
+                #[cfg(debug_assertions)]
+                let command = shell.command("python").args(["main.py", "8000"]);
+
+                // 生产模式使用打包后的可执行文件
+                #[cfg(not(debug_assertions))]
+                let command = shell.sidecar("fastapi-server").unwrap().args(["8000"]);
+
+                let _child = command.spawn().expect("failed to spawn server");
             });
-            
+
             Ok(())
         })
         .run(tauri::generate_context!())
