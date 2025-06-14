@@ -1,4 +1,4 @@
-import App from "@/App";
+import App from "@/page/App";
 import Layout from "@/Layout";
 import { createBrowserRouter } from "react-router";
 function Home() {
