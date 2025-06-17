@@ -4,6 +4,7 @@ import TaskPage from "@/page/tasks/TaskPage";
 import commInfo from "@/page/comm_info/commInfo";
 import commInfo1  from "@/page/tasks1/commInfo";
 import commInfo2  from "@/page/tasks2/commInfo";
+import commInfo3  from "@/page/tasks3/commInfo";
 import Layout from "@/Layout";
 import React from 'react';
 import { createBrowserRouter,type RouteObject } from "react-router";
@@ -44,6 +45,10 @@ export const routesConfig: RouteConfig[] = [
         path: "commInfo2",
         component: "commInfo2",
       },
+      {
+        path: "commInfo3",
+        component: "commInfo3",
+      },
     ],
   },
 ];
@@ -57,6 +62,7 @@ const componentMap = {
   commInfo,
   commInfo1,
   commInfo2,
+  commInfo3,
 };
 
 // 转换 JSON 配置为路由配置对象的函数
