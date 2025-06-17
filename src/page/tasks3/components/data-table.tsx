@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
 import {
   type ColumnDef,
   type ColumnFiltersState,
@@ -14,7 +14,7 @@ import {
   type SortingState,
   useReactTable,
   type VisibilityState,
-} from "@tanstack/react-table"
+} from "@tanstack/react-table";
 
 import {
   Table,
@@ -23,27 +23,27 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 
-import { DataTablePagination } from "../../common/data-table-pagination"
-import { DataTableToolbar } from "./data-table-toolbar"
+import { DataTablePagination } from "../../common/data-table-pagination";
+import { DataTableToolbar } from "./data-table-toolbar";
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const [rowSelection, setRowSelection] = React.useState({})
+  const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
+    React.useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
-  )
-  const [sorting, setSorting] = React.useState<SortingState>([])
+  );
+  const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const table = useReactTable({
     data,
@@ -70,19 +70,65 @@ export function DataTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
-  })
+  });
+  // 使用 const 类型断言确保 ref 初始值为 null
+  const tableRef = React.useRef<HTMLTableElement>(null) as React.MutableRefObject<HTMLTableElement | null>;
+  const [isDragging, setIsDragging] = React.useState(false);
+  const [startX, setStartX] = React.useState(0);
+  const [scrollLeft, setScrollLeft] = React.useState(0);
+
+  // 提取获取表格元素的函数，提高代码复用性
+  const getTableElement = () => tableRef.current;
+
+  const handleMouseDown = (e: React.MouseEvent<HTMLTableElement>) => {
+    const table = getTableElement();
+    if (table) {
+      setIsDragging(true);
+      setStartX(e.pageX - table.offsetLeft);
+      setScrollLeft(table.scrollLeft);
+    }
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLTableElement>) => {
+    const table = getTableElement();
+    if (!isDragging || !table) return;
+    
+    e.preventDefault();
+    const x = e.pageX - table.offsetLeft;
+    const walk = (x - startX) * 3; // 调整滚动速度
+    table.scrollLeft = scrollLeft - walk;
+  };
+
+  // 提取通用的停止拖动函数
+  const stopDragging = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseUp = stopDragging;
+  const handleMouseLeave = stopDragging;
 
   return (
     <div className=" flex  flex-col max-h-full">
       <DataTableToolbar table={table} />
       <div className="flex-1 overflow-y-auto ">
-        <Table className="table-fixed">
+        <Table
+          className="table-fixed"
+          ref={tableRef}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseLeave}
+        >
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} colSpan={header.colSpan} style={{ width: header.getSize() }}>
+                    <TableHead
+                      key={header.id}
+                      colSpan={header.colSpan}
+                      style={{ width: header.getSize() }}
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -90,7 +136,7 @@ export function DataTable<TData, TValue>({
                             header.getContext()
                           )}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
@@ -103,7 +149,10 @@ export function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} style={{ width: cell.column.getSize() }}>
+                    <TableCell
+                      key={cell.id}
+                      style={{ width: cell.column.getSize() }}
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -116,7 +165,7 @@ export function DataTable<TData, TValue>({
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center" 
+                  className="h-24 text-center"
                 >
                   No results.
                 </TableCell>
@@ -127,5 +176,5 @@ export function DataTable<TData, TValue>({
       </div>
       <DataTablePagination table={table} />
     </div>
-  )
+  );
 }
