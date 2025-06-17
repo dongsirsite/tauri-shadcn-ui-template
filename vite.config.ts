@@ -33,4 +33,20 @@ export default defineConfig({
       ignored: ["**/src-tauri/**"],
     },
   },
+  build: {
+    // 按照业务模块拆分代码
+    rollupOptions: {
+      output: {
+        manualChunks: (id) => {
+          if (id.includes("src/page/comm_info")) {
+            return "comm_info";
+          }
+          if (id.includes("src/page/tasks")) {
+            return "tasks";
+          }
+          // 可以添加更多业务模块判断逻辑
+        },
+      },
+    },
+  },
 });
