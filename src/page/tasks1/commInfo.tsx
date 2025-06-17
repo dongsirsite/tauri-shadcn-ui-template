@@ -722,7 +722,7 @@ export default  function commInfo1() {
 
   return (
     <>
-      <div className="flex-1 ">
+      <div className="flex-1 overflow-y-auto">
         <DataTable data={tasks} columns={columns} />
       </div>
     </>
