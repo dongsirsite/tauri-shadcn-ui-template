@@ -34,6 +34,7 @@ export const columns: ColumnDef<Task>[] = [
     ),
     enableSorting: false,
     enableHiding: false,
+    size: 40,
   },
   {
     accessorKey: "id",
@@ -61,6 +62,8 @@ export const columns: ColumnDef<Task>[] = [
         </div>
       )
     },
+    size: 300,
+    
   },
   {
     accessorKey: "status",
