@@ -71,41 +71,6 @@ export function DataTable<TData, TValue>({
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
-  // 使用 const 类型断言确保 ref 初始值为 null
-  const tableRef = React.useRef<HTMLTableElement>(null) as React.MutableRefObject<HTMLTableElement | null>;
-  const [isDragging, setIsDragging] = React.useState(false);
-  const [startX, setStartX] = React.useState(0);
-  const [scrollLeft, setScrollLeft] = React.useState(0);
-
-  // 提取获取表格元素的函数，提高代码复用性
-  const getTableElement = () => tableRef.current;
-
-  const handleMouseDown = (e: React.MouseEvent<HTMLTableElement>) => {
-    const table = getTableElement();
-    if (table) {
-      setIsDragging(true);
-      setStartX(e.pageX - table.offsetLeft);
-      setScrollLeft(table.scrollLeft);
-    }
-  };
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLTableElement>) => {
-    const table = getTableElement();
-    if (!isDragging || !table) return;
-    
-    e.preventDefault();
-    const x = e.pageX - table.offsetLeft;
-    const walk = (x - startX) * 3; // 调整滚动速度
-    table.scrollLeft = scrollLeft - walk;
-  };
-
-  // 提取通用的停止拖动函数
-  const stopDragging = () => {
-    setIsDragging(false);
-  };
-
-  const handleMouseUp = stopDragging;
-  const handleMouseLeave = stopDragging;
 
   return (
     <div className=" flex  flex-col max-h-full">
@@ -113,11 +78,7 @@ export function DataTable<TData, TValue>({
       <div className="flex-1 overflow-y-auto ">
         <Table
           className="table-fixed"
-          ref={tableRef}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseLeave}
+          enableRightDrag={true} // 添加 enableRightDrag 属性
         >
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

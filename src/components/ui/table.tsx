@@ -1,12 +1,93 @@
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
+// 定义 Table 组件的 props 类型
+interface TableProps extends React.ComponentProps<"table"> {
+  className?: string;
+  enableRightDrag?: boolean; // 新增参数，控制是否开启右键拖动
+}
+const useTableDragScroll = (enableRightDrag: boolean) => {
+  const [isDragging, setIsDragging] = React.useState(false);
+  const [startX, setStartX] = React.useState(0);
+  const [scrollLeft, setScrollLeft] = React.useState(0);
+  const containerRef = React.useRef<HTMLDivElement>(null);
 
-function Table({ className, ...props }: React.ComponentProps<"table">) {
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (enableRightDrag && e.button === 2) { // 2 代表右键
+      setIsDragging(true);
+      setStartX(e.pageX - (containerRef.current?.offsetLeft || 0));
+      setScrollLeft(containerRef.current?.scrollLeft || 0);
+      containerRef.current?.style.setProperty("cursor", "grabbing");
+    }
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isDragging || !containerRef.current || !enableRightDrag) return;
+    e.preventDefault();
+    const x = e.pageX - (containerRef.current.offsetLeft || 0);
+    const walk = x - startX;
+    containerRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  const handleMouseUp = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (enableRightDrag && e.button === 2) { // 2 代表右键
+      setIsDragging(false);
+      containerRef.current?.style.setProperty("cursor", "default");
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (!isDragging || !enableRightDrag) return;
+    setIsDragging(false);
+    containerRef.current?.style.setProperty("cursor", "default");
+  };
+
+  const handleMouseEnter = () => {
+    if (!isDragging || !enableRightDrag) {
+      containerRef.current?.style.setProperty("cursor", "default");
+    }
+  };
+
+  // 阻止右键菜单默认行为
+  const handleContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (enableRightDrag) {
+      e.preventDefault();
+    }
+  };
+
+  return {
+    containerRef,
+    onMouseDown: handleMouseDown,
+    onMouseMove: handleMouseMove,
+    onMouseUp: handleMouseUp,
+    onMouseLeave: handleMouseLeave,
+    onMouseEnter: handleMouseEnter,
+    onContextMenu: handleContextMenu,
+  };
+};
+function Table({ className, enableRightDrag = false, ...props }: TableProps) {
+  const {
+    containerRef,
+    onMouseDown,
+    onMouseMove,
+    onMouseUp,
+    onMouseLeave,
+    onMouseEnter,
+    onContextMenu,
+  } = useTableDragScroll(enableRightDrag);
+
+
   return (
     <div
+        ref={containerRef}
       data-slot="table-container"
       className="relative w-full overflow-x-auto"
+      onMouseDown={onMouseDown}
+      onMouseMove={onMouseMove}
+      onMouseUp={onMouseUp}
+      onMouseLeave={onMouseLeave}
+      onMouseEnter={onMouseEnter}
+      onContextMenu={onContextMenu}
     >
       <table
         data-slot="table"
