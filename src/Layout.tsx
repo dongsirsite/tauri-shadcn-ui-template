@@ -23,7 +23,7 @@ export default function RootLayout() {
             }
           >
             <AppSidebar variant="sidebar" />
-            <SidebarInset className="overflow-x-hidden">
+            <SidebarInset className="overflow-x-hidden ">
               <SiteHeader />
               <Outlet />
             </SidebarInset>
