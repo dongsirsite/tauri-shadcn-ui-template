@@ -75,7 +75,7 @@ export function DataTable<TData, TValue>({
   return (
     <div className=" flex  flex-col max-h-full">
       <DataTableToolbar table={table} />
-      <div className="flex-1 overflow-y-auto overflow-x-auto">
+      <div className="flex-1 overflow-y-auto ">
         <Table className="table-fixed">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

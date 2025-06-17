@@ -91,6 +91,7 @@ export const columns: ColumnDef<Task>[] = [
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
     },
+    size: 800,
   },
   {
     accessorKey: "priority",
