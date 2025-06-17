@@ -73,7 +73,7 @@ export function DataTable<TData, TValue>({
   })
 
   return (
-    <div className="flex flex-1 flex-col h-full w-full">
+    <div className="flex flex-1 flex-col h-full">
       <DataTableToolbar table={table} />
       <div className="flex-1 overflow-y-auto overflow-x-auto">
         <Table className="table-fixed">
