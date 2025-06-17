@@ -1,5 +1,6 @@
 import App from "@/page/App";
 import Home from "@/page/Home";
+import TaskPage from "@/page/tasks/TaskPage";
 import Layout from "@/Layout";
 import React from 'react';
 import { createBrowserRouter,type RouteObject } from "react-router";
@@ -24,6 +25,10 @@ export const routesConfig: RouteConfig[] = [
         path: "app",
         component: "App",
       },
+      {
+        path: "task",
+        component: "TaskPage",
+      },
     ],
   },
 ];
@@ -33,6 +38,7 @@ const componentMap = {
   Layout,
   Home,
   App,
+  TaskPage,
 };
 
 // 转换 JSON 配置为路由配置对象的函数
