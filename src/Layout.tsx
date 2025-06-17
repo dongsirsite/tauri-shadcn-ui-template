@@ -13,8 +13,8 @@ export default function RootLayout() {
     <ThemeProvider>
       <LayoutProvider>
         <ActiveThemeProvider>
-          <SidebarProvider
-            className="hidden md:flex"
+          <SidebarProvider 
+            className="hidden md:flex h-full"
             style={
               {
                 "--sidebar-width": "calc(var(--spacing) * 64)",

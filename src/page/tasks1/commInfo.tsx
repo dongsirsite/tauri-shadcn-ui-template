@@ -722,7 +722,7 @@ export default  function commInfo1() {
 
   return (
     <>
-      <div className="hidden flex-1 flex-col md:flex">
+      <div className="flex-1 ">
         <DataTable data={tasks} columns={columns} />
       </div>
     </>
