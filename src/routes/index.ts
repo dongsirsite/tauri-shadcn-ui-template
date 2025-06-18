@@ -2,13 +2,13 @@ import App from "@/page/App";
 import Home from "@/page/Home";
 import TaskPage from "@/page/tasks/TaskPage";
 import commInfo from "@/page/comm_info/commInfo";
-import commInfo1  from "@/page/tasks1/commInfo";
-import commInfo2  from "@/page/tasks2/commInfo";
-import commInfo3  from "@/page/tasks3/commInfo";
-import commInfo4  from "@/page/tasks4/commInfo";
+import commInfo1 from "@/page/tasks1/commInfo";
+import commInfo2 from "@/page/tasks2/commInfo";
+import commInfo3 from "@/page/tasks3/commInfo";
+import commInfo4 from "@/page/tasks4/commInfo";
 import Layout from "@/Layout";
-import React from 'react';
-import { createBrowserRouter,type RouteObject } from "react-router";
+import React from "react";
+import { createBrowserRouter, type RouteObject } from "react-router";
 
 // 定义路由配置项的类型
 interface RouteConfig {
@@ -73,19 +73,27 @@ const componentMap = {
 
 // 转换 JSON 配置为路由配置对象的函数
 function convertJsonToRoutes(jsonConfig: RouteConfig[]): RouteObject[] {
-  return jsonConfig.map((config): RouteObject => {
-    const route: RouteObject = {
-      path: config.path,
-      element: React.createElement(componentMap[config.component]),
-    };
-
-    if (config.children) {
-      route.children = convertJsonToRoutes(config.children);
+  const ret = jsonConfig.map((config): RouteObject => {
+    if (config.path === "home") {
+      const route: RouteObject = {
+        index: true,
+        element: React.createElement(componentMap[config.component]),
+      };
+      return route;
+    } else {
+      const route: RouteObject = {
+        path: config.path,
+        element: React.createElement(componentMap[config.component]),
+      };
+      if (config.children) {
+        route.children = convertJsonToRoutes(config.children);
+      }
+      return route;
     }
-
-    return route;
   });
+  return ret;
 }
+
 
 // 将 JSON 配置转换为路由配置
 const routeConfig = convertJsonToRoutes(routesConfig);
