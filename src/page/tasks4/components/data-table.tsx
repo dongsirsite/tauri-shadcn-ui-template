@@ -79,8 +79,9 @@ export function DataTable<TData, TValue>({
         <Table
           className="table-fixed"
           enableRightDrag={true} // 添加 enableRightDrag 属性
+          enableFixedHeader={true} // 添加 enableFixedHeader 属性
         >
-          <TableHeader>
+          <TableHeader className="sticky top-0 z-10 bg-background">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {

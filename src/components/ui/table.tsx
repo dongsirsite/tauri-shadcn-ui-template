@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils"
 interface TableProps extends React.ComponentProps<"table"> {
   className?: string;
   enableRightDrag?: boolean; // 新增参数，控制是否开启右键拖动
+  enableFixedHeader?: boolean; // 新增参数，控制是否开启表头固定
 }
 const useTableDragScroll = (enableRightDrag: boolean) => {
   const [isDragging, setIsDragging] = React.useState(false);
@@ -65,7 +66,7 @@ const useTableDragScroll = (enableRightDrag: boolean) => {
     onContextMenu: handleContextMenu,
   };
 };
-function Table({ className, enableRightDrag = false, ...props }: TableProps) {
+function Table({ className, enableRightDrag = false, enableFixedHeader = false, ...props }: TableProps) {
   const {
     containerRef,
     onMouseDown,
@@ -76,7 +77,27 @@ function Table({ className, enableRightDrag = false, ...props }: TableProps) {
     onContextMenu,
   } = useTableDragScroll(enableRightDrag);
 
-
+  if (enableFixedHeader) {
+    return (
+       <div
+        ref={containerRef}
+      data-slot="table-container"
+      className="relative w-full "
+      onMouseDown={onMouseDown}
+      onMouseMove={onMouseMove}
+      onMouseUp={onMouseUp}
+      onMouseLeave={onMouseLeave}
+      onMouseEnter={onMouseEnter}
+      onContextMenu={onContextMenu}
+    >
+      <table
+        data-slot="table"
+        className={cn("w-full caption-bottom text-sm", className)}
+        {...props}
+      />
+    </div>
+    )
+  }
   return (
     <div
         ref={containerRef}
