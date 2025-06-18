@@ -37,14 +37,15 @@ export default defineConfig({
     // 按照业务模块拆分代码
     rollupOptions: {
       output: {
+        // 根据模块路径动态生成 chunk 名称
         manualChunks: (id) => {
-          if (id.includes("src/page/comm_info")) {
-            return "comm_info";
+          // 匹配 src/page/ 目录下的业务模块，例如 src/page/comm_info -> comm_info
+          const match = id.match(/src\/page\/([^/]+)\//);
+          if (match && match[1]) {
+            return match[1]; // 返回匹配到的模块名称作为 chunk 名称
           }
-          if (id.includes("src/page/tasks")) {
-            return "tasks";
-          }
-          // 可以添加更多业务模块判断逻辑
+          // 对于不符合业务模块规则的路径，返回 undefined，让 Vite/Rollup 按照默认规则处理
+          return undefined;
         },
       },
     },
