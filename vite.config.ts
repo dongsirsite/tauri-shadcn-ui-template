@@ -40,11 +40,8 @@ export default defineConfig({
         // 根据模块路径动态生成 chunk 名称
         manualChunks: (id) => {
           // 匹配 src/page/ 目录下的业务模块，例如 src/page/comm_info -> comm_info
-          const match = id.match(/src\/page\/([^/]+)\//);
+          const match = id.match(/src\/page\/(?!common)([^/]+)\//);
           if (match && match[1]) {
-            if (id.startsWith('src/page/common')) {
-              return undefined; // 排除 /src/page/common 目录
-            }
             return match[1]; // 返回匹配到的模块名称作为 chunk 名称
           }
           // 对于不符合业务模块规则的路径，返回 undefined，让 Vite/Rollup 按照默认规则处理
