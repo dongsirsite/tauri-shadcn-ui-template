@@ -15,6 +15,7 @@ export function NavMain({
 }: {
   items: {
     title: string;
+    index?: boolean;
     url: string;
     icon?: Icon;
   }[];

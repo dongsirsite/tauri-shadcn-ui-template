@@ -51,37 +51,37 @@ export const routesConfig: RouteConfig[] = [
     path: "/",
     component: "Layout",
     children: [
-      {
-        // path: "home",
-        index: true,
-        component: "Home",
-      },
+      // {
+      //   // path: "home",
+      //   index: true,
+      //   component: "Home",
+      // },
       // 合并原有的 children 和从 menu 生成的路由
       ...menuRoutes,
-      {
-        path: "task",
-        component: "TaskPage",
-      },
-      {
-        path: "commInfo",
-        component: "commInfo",
-      },
-      {
-        path: "commInfo1",
-        component: "commInfo1",
-      },
-      {
-        path: "commInfo2",
-        component: "commInfo2",
-      },
-      {
-        path: "commInfo3",
-        component: "commInfo3",
-      },
-      {
-        path: "commInfo4",
-        component: "commInfo4",
-      },
+      // {
+      //   path: "task",
+      //   component: "TaskPage",
+      // },
+      // {
+      //   path: "commInfo",
+      //   component: "commInfo",
+      // },
+      // {
+      //   path: "commInfo1",
+      //   component: "commInfo1",
+      // },
+      // {
+      //   path: "commInfo2",
+      //   component: "commInfo2",
+      // },
+      // {
+      //   path: "commInfo3",
+      //   component: "commInfo3",
+      // },
+      // {
+      //   path: "commInfo4",
+      //   component: "commInfo4",
+      // },
     ],
   },
 ];

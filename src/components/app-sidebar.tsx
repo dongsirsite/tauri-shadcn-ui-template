@@ -1,26 +1,26 @@
-import * as React from "react"
+import * as React from "react";
 import {
   IconCamera,
-  // IconChartBar,
+  IconChartBar,
   IconDashboard,
   IconDatabase,
   IconFileAi,
   IconFileDescription,
   IconFileWord,
-  // IconFolder,
+  IconFolder,
   IconHelp,
   IconInnerShadowTop,
-  // IconListDetails,
+  IconListDetails,
   IconReport,
   IconSearch,
   IconSettings,
-  // IconUsers,
-} from "@tabler/icons-react"
+  IconUsers,
+} from "@tabler/icons-react";
 
-import { NavDocuments } from "@/components/nav-documents"
-import { NavMain } from "@/components/nav-main"
-import { NavSecondary } from "@/components/nav-secondary"
-import { NavUser } from "@/components/nav-user"
+import { NavDocuments } from "@/components/nav-documents";
+import { NavMain } from "@/components/nav-main";
+import { NavSecondary } from "@/components/nav-secondary";
+import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
@@ -29,13 +29,50 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 export const navMainMenu = [
   {
     title: "Dashboard",
     url: "/app",
-    icon: IconDashboard,
-    component: 'App', // 添加组件名称
+    index: false,
+    component: "App", // 添加组件名称
+  },
+  {
+    url: "home",
+    index: true,
+    component: "Home",
+    title: "Home",
+  },
+  // 合并原有的 children 和从 menu 生成的路由
+  {
+    url: "task",
+    component: "TaskPage",
+    title: "TaskPage",
+  },
+  {
+    url: "commInfo",
+    component: "commInfo",
+    title: "commInfo",
+  },
+  {
+    url: "commInfo1",
+    component: "commInfo1",
+    title: "commInfo1",
+  },
+  {
+    url: "commInfo2",
+    component: "commInfo2",
+    title: "commInfo2",
+  },
+  {
+    url: "commInfo3",
+    component: "commInfo3",
+    title: "commInfo3",
+  },
+  {
+    url: "commInfo4",
+    component: "commInfo4",
+    title: "commInfo4",
   },
 ];
 const data = {
@@ -44,34 +81,34 @@ const data = {
     email: "m@example.com",
     avatar: "/avatars/shadcn.jpg",
   },
-  navMain: navMainMenu,
-  // navMain: [
-  //   {
-  //     title: "Dashboard",
-  //     url: "/app",
-  //     icon: IconDashboard,
-  //   },
-  //   {
-  //     title: "Lifecycle",
-  //     url: "#",
-  //     icon: IconListDetails,
-  //   },
-  //   {
-  //     title: "Analytics",
-  //     url: "#",
-  //     icon: IconChartBar,
-  //   },
-  //   {
-  //     title: "Projects",
-  //     url: "#",
-  //     icon: IconFolder,
-  //   },
-  //   {
-  //     title: "Team",
-  //     url: "#",
-  //     icon: IconUsers,
-  //   },
-  // ],
+  demo: navMainMenu,
+  navMain: [
+    {
+      title: "Dashboard",
+      url: "/app",
+      icon: IconDashboard,
+    },
+    {
+      title: "Lifecycle",
+      url: "#",
+      icon: IconListDetails,
+    },
+    {
+      title: "Analytics",
+      url: "#",
+      icon: IconChartBar,
+    },
+    {
+      title: "Projects",
+      url: "#",
+      icon: IconFolder,
+    },
+    {
+      title: "Team",
+      url: "#",
+      icon: IconUsers,
+    },
+  ],
   navClouds: [
     {
       title: "Capture",
@@ -154,7 +191,7 @@ const data = {
       icon: IconFileWord,
     },
   ],
-}
+};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -175,6 +212,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
+        <NavMain items={data.demo} />
+        <NavMain items={data.navMain} />
         <NavMain items={data.navMain} />
         <NavDocuments items={data.documents} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
@@ -183,5 +222,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavUser user={data.user} />
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }
