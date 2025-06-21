@@ -13,7 +13,8 @@ import { navMainMenu } from "@/components/app-sidebar";
 
 // 定义路由配置项的类型
 interface RouteConfig {
-  path: string;
+  path?: string;
+  index?: boolean;
   component: keyof typeof componentMap;
   children?: RouteConfig[];
 }
@@ -51,7 +52,8 @@ export const routesConfig: RouteConfig[] = [
     component: "Layout",
     children: [
       {
-        path: "home",
+        // path: "home",
+        index: true,
         component: "Home",
       },
       // 合并原有的 children 和从 menu 生成的路由
@@ -88,6 +90,7 @@ export const routesConfig: RouteConfig[] = [
 const convertJsonToRoutes = (jsonConfig: RouteConfig[]): RouteObject[] => {
   return jsonConfig.map((config): RouteObject => {
     const baseRoute: RouteObject = {
+      index: config.index,
       element: React.createElement(componentMap[config.component]),
     };
 
