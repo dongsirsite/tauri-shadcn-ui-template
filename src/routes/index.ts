@@ -90,7 +90,15 @@ const convertJsonToRoutes = (jsonConfig: RouteConfig[]): RouteObject[] => {
   return jsonConfig.map((config): RouteObject => {
     const baseRoute: RouteObject = {
       index: config.index,
-      element: React.createElement(componentMap[config.component]),
+      // 检查 config.component 是否为 componentMap 的有效键
+      element: ((): React.ReactElement | null => {
+        if (Object.prototype.hasOwnProperty.call(componentMap, config.component)) {
+          const component = componentMap[config.component as keyof typeof componentMap];
+          return React.createElement(component);
+        }
+        console.warn(`Component ${config.component} not found in componentMap`);
+        return null;
+      })(),
     };
 
     if (config.path === "home") {
