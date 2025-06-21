@@ -1,20 +1,20 @@
 import * as React from "react"
 import {
   IconCamera,
-  IconChartBar,
+  // IconChartBar,
   IconDashboard,
   IconDatabase,
   IconFileAi,
   IconFileDescription,
   IconFileWord,
-  IconFolder,
+  // IconFolder,
   IconHelp,
   IconInnerShadowTop,
-  IconListDetails,
+  // IconListDetails,
   IconReport,
   IconSearch,
   IconSettings,
-  IconUsers,
+  // IconUsers,
 } from "@tabler/icons-react"
 
 import { NavDocuments } from "@/components/nav-documents"
