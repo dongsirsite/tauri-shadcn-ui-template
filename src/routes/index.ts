@@ -9,6 +9,7 @@ import commInfo4 from "@/page/tasks4/commInfo";
 import Layout from "@/Layout";
 import React from "react";
 import { createBrowserRouter, type RouteObject } from "react-router";
+import { navMainMenu } from "@/components/app-sidebar";
 
 // 定义路由配置项的类型
 interface RouteConfig {
@@ -16,6 +17,33 @@ interface RouteConfig {
   component: keyof typeof componentMap;
   children?: RouteConfig[];
 }
+
+// 定义组件映射对象
+const componentMap = {
+  Layout,
+  Home,
+  App,
+  TaskPage,
+  commInfo,
+  commInfo1,
+  commInfo2,
+  commInfo3,
+  commInfo4,
+};
+
+// 提取函数用于根据 URL 映射组件名称
+const getComponentName = (url: string): keyof typeof componentMap => {
+  if (url === "/app") return "App";
+  return "Home";
+};
+
+// 过滤掉 url 为 '#' 的菜单项，并转换为 RouteConfig 对象
+const menuRoutes = navMainMenu
+  .filter((item) => item.url !== "#")
+  .map((item) => ({
+    path: item.url.replace(/^\//, ""), // 移除开头的 '/'
+    component: getComponentName(item.url),
+  }));
 
 export const routesConfig: RouteConfig[] = [
   {
@@ -26,10 +54,8 @@ export const routesConfig: RouteConfig[] = [
         path: "home",
         component: "Home",
       },
-      {
-        path: "app",
-        component: "App",
-      },
+      // 合并原有的 children 和从 menu 生成的路由
+      ...menuRoutes,
       {
         path: "task",
         component: "TaskPage",
@@ -58,42 +84,26 @@ export const routesConfig: RouteConfig[] = [
   },
 ];
 
-// 定义组件映射对象
-const componentMap = {
-  Layout,
-  Home,
-  App,
-  TaskPage,
-  commInfo,
-  commInfo1,
-  commInfo2,
-  commInfo3,
-  commInfo4,
-};
-
 // 转换 JSON 配置为路由配置对象的函数
-function convertJsonToRoutes(jsonConfig: RouteConfig[]): RouteObject[] {
-  const ret = jsonConfig.map((config): RouteObject => {
-    if (config.path === "home") {
-      const route: RouteObject = {
-        index: true,
-        element: React.createElement(componentMap[config.component]),
-      };
-      return route;
-    } else {
-      const route: RouteObject = {
-        path: config.path,
-        element: React.createElement(componentMap[config.component]),
-      };
-      if (config.children) {
-        route.children = convertJsonToRoutes(config.children);
-      }
-      return route;
-    }
-  });
-  return ret;
-}
+const convertJsonToRoutes = (jsonConfig: RouteConfig[]): RouteObject[] => {
+  return jsonConfig.map((config): RouteObject => {
+    const baseRoute: RouteObject = {
+      element: React.createElement(componentMap[config.component]),
+    };
 
+    if (config.path === "home") {
+      baseRoute.index = true;
+    } else {
+      baseRoute.path = config.path;
+    }
+
+    if (config.children) {
+      baseRoute.children = convertJsonToRoutes(config.children);
+    }
+
+    return baseRoute;
+  });
+};
 
 // 将 JSON 配置转换为路由配置
 const routeConfig = convertJsonToRoutes(routesConfig);

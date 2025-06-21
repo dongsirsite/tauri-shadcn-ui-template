@@ -30,40 +30,48 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-
+export const navMainMenu = [
+  {
+    title: "Dashboard",
+    url: "/app",
+    icon: IconDashboard,
+    component: 'App', // 添加组件名称
+  },
+];
 const data = {
   user: {
     name: "shadcn",
     email: "m@example.com",
     avatar: "/avatars/shadcn.jpg",
   },
-  navMain: [
-    {
-      title: "Dashboard",
-      url: "/app",
-      icon: IconDashboard,
-    },
-    {
-      title: "Lifecycle",
-      url: "#",
-      icon: IconListDetails,
-    },
-    {
-      title: "Analytics",
-      url: "#",
-      icon: IconChartBar,
-    },
-    {
-      title: "Projects",
-      url: "#",
-      icon: IconFolder,
-    },
-    {
-      title: "Team",
-      url: "#",
-      icon: IconUsers,
-    },
-  ],
+  navMain: navMainMenu,
+  // navMain: [
+  //   {
+  //     title: "Dashboard",
+  //     url: "/app",
+  //     icon: IconDashboard,
+  //   },
+  //   {
+  //     title: "Lifecycle",
+  //     url: "#",
+  //     icon: IconListDetails,
+  //   },
+  //   {
+  //     title: "Analytics",
+  //     url: "#",
+  //     icon: IconChartBar,
+  //   },
+  //   {
+  //     title: "Projects",
+  //     url: "#",
+  //     icon: IconFolder,
+  //   },
+  //   {
+  //     title: "Team",
+  //     url: "#",
+  //     icon: IconUsers,
+  //   },
+  // ],
   navClouds: [
     {
       title: "Capture",
