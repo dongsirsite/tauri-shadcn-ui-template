@@ -32,16 +32,16 @@ import {
 } from "@/components/ui/sidebar";
 export const navMainMenu = [
   {
+    url: "/",
+    index: true,
+    component: "Home",
+    title: "Home",
+  },
+  {
     title: "Dashboard",
     url: "/app",
     index: false,
     component: "App", // 添加组件名称
-  },
-  {
-    url: "#",
-    index: true,
-    component: "Home",
-    title: "Home",
   },
   // 合并原有的 children 和从 menu 生成的路由
   {
