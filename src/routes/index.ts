@@ -15,7 +15,7 @@ import { navMainMenu } from "@/components/app-sidebar";
 interface RouteConfig {
   path?: string;
   index?: boolean;
-  component: keyof typeof componentMap;
+  component: string;
   children?: RouteConfig[];
 }
 
@@ -33,18 +33,17 @@ const componentMap = {
 };
 
 // 提取函数用于根据 URL 映射组件名称
-const getComponentName = (url: string): keyof typeof componentMap => {
-  if (url === "/app") return "App";
-  return "Home";
-};
+// const getComponentName = (url: string): keyof typeof componentMap => {
+//   if (url === "/app") return "App";
+//   return "Home";
+// };
 
 // 过滤掉 url 为 '#' 的菜单项，并转换为 RouteConfig 对象
-const menuRoutes = navMainMenu
-  .filter((item) => item.url !== "#")
-  .map((item) => ({
-    path: item.url.replace(/^\//, ""), // 移除开头的 '/'
-    component: getComponentName(item.url),
-  }));
+const menuRoutes = navMainMenu.map((item) => ({
+  path: item.index ? "" : item.url.replace(/^\//, ""), // 移除开头的 '/'
+  component: item.component,
+  index: item.index ? true : false,
+}));
 
 export const routesConfig: RouteConfig[] = [
   {
@@ -85,7 +84,7 @@ export const routesConfig: RouteConfig[] = [
     ],
   },
 ];
-
+console.log("routes", routesConfig);
 // 转换 JSON 配置为路由配置对象的函数
 const convertJsonToRoutes = (jsonConfig: RouteConfig[]): RouteObject[] => {
   return jsonConfig.map((config): RouteObject => {

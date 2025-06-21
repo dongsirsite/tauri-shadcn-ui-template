@@ -38,7 +38,7 @@ export const navMainMenu = [
     component: "App", // 添加组件名称
   },
   {
-    url: "home",
+    url: "#",
     index: true,
     component: "Home",
     title: "Home",
